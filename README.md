@@ -19,7 +19,7 @@ An ordered list of my favourite numbers from 1-5:
 4. 5
 5. 4
 
-A random [link](https://koalastothemax.com) in case you are bored.
+A random [link](https://koalastothemax.com) in case you are bored. And incase that wasn't enough here's [another](http://endless.horse).
 
 A meme that captures how I currently feel about my university studies is ![](https://static.wikia.nocookie.net/simpsons/images/1/10/Neverend.jpg/revision/latest?cb=20191024002932)
 
