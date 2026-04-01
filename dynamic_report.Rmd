@@ -5,7 +5,27 @@ output: html_fragment
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 ```
+```{css, echo=FALSE}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+}
 
+h2 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+}
+
+blockquote {
+  background-color: #f0f7fb;
+  border-left: 6px solid #3498db;
+  padding: 15px;
+  margin: 20px 0;
+  font-style: italic;
+  color: #333;
+}
+```
 ```{r}
 library(tidyverse)
 
@@ -57,6 +77,8 @@ ggplot(report_summary_1, aes(x = video_finished, y = mean_length)) +
     y = "Average Length (minutes)"
   )
 ```
+
+
 ## Video Completion by length
 The plot above displays the average length of videos that were not watched in entirety versus those that were. The average length for videos I didn't finish is `r round(report_summary_1$mean_length[1], 1)` minutes, while the videos I did finish averaged `r round(report_summary_1$mean_length[2], 1)` minutes.
 
@@ -81,5 +103,7 @@ report_sub_stats <- latest_data %>%
   )
 
 ```
+
+
 ## The Impact of Subscription on Watch Behavior
 Does being subscribed to a creator make me more likely to finish their content? The bar chart above compares the count of finished vs. unfinished videos based on subscription status. The percentage of videos finished as a nonsubscriber is `r report_sub_stats$completion_rate[1]` and the percentage of videos finished as a subscriber is `r report_sub_stats$completion_rate[2]`.
