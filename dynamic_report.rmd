@@ -4,10 +4,11 @@ output: html_fragment
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
-library(tidyverse)
 ```
 
 ```{r}
+library(tidyverse)
+
 # Load and clean data
 logged_data <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1aRljG5xmP2ObmFxf2b_L9CTceFbhCFk22WQyqkTV3HY7vjoozv1xw26QMsEMR3iMjd9xK72gBUnK/pub?output=csv")
 
