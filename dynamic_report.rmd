@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 library(tidyverse)
 
 # Load and clean data
-logged_data <- read.csv("[https://docs.google.com/spreadsheets/d/e/2PACX-1vS1aRljG5xmP2ObmFxf2b_L9CTceFbhCFk22WQyqkTV3HY7vjoozv1xw26QMsEMR3iMjd9xK72gBUnK/pub?output=csv](https://docs.google.com/spreadsheets/d/e/2PACX-1vS1aRljG5xmP2ObmFxf2b_L9CTceFbhCFk22WQyqkTV3HY7vjoozv1xw26QMsEMR3iMjd9xK72gBUnK/pub?output=csv)")
+logged_data <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1aRljG5xmP2ObmFxf2b_L9CTceFbhCFk22WQyqkTV3HY7vjoozv1xw26QMsEMR3iMjd9xK72gBUnK/pub?output=csv")
 
 latest_data <- logged_data %>%
   select(-Timestamp) %>%
@@ -33,8 +33,9 @@ report_sub_stats <- latest_data %>%
     finished_vids = sum(video_finished == "Yes"),
     completion_rate = (finished_vids / total_vids) * 100
   )
+```
 
-/* CSS remains inside a code chunk, which is allowed */
+```{css, echo=FALSE}
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #ffffff;
@@ -80,10 +81,11 @@ ggplot(report_summary_1, aes(x = video_finished, y = mean_length)) +
 ```
 
 ## Video Completion by length
-The following plot displays the average length of videos that were not watched in entirety versus those that were. The average length for videos I didn't finish is `r round(report_summary_1$mean_length[1], 1)` minutes, while the videos I did finish averaged `r round(report_summary_1$mean_length[2], 1)` minutes.
+The plot above displays the average length of videos that were not watched in entirety versus those that were. The average length for videos I didn't finish is `r round(report_summary_1$mean_length[1], 1)` minutes, while the videos I did finish averaged `r round(report_summary_1$mean_length[2], 1)` minutes.
 
 
 ```{r}
+# Ploting subscribed vs unsubscribed against whether videos are finished or not
 ggplot(latest_data, aes(x = subscribed, fill = video_finished)) +
   geom_bar(position = "dodge") +
   labs(
@@ -93,6 +95,7 @@ ggplot(latest_data, aes(x = subscribed, fill = video_finished)) +
   ) +
   theme_minimal()
 
+# Calculating the corresponding percentages
 report_sub_stats <- latest_data %>%
   group_by(subscribed) %>%
   summarise(
@@ -104,4 +107,4 @@ report_sub_stats <- latest_data %>%
 ```
 
 ## The Impact of Subscription on Watch Behavior
-Does being subscribed to a creator make me more likely to finish their content? This bar chart compares the count of finished vs. unfinished videos based on subscription status. The percentage of videos finished as a nonsubscriber is `r report_sub_stats$completion_rate[1]` and the percentage of videos finished as a subscriber is `r report_sub_stats$completion_rate[2]`.
+Does being subscribed to a creator make me more likely to finish their content? The bar chart above compares the count of finished vs. unfinished videos based on subscription status. The percentage of videos finished as a nonsubscriber is `r report_sub_stats$completion_rate[1]` and the percentage of videos finished as a subscriber is `r report_sub_stats$completion_rate[2]`.
