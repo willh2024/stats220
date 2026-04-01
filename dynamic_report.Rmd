@@ -70,7 +70,7 @@ report_summary_1 <- latest_data %>%
 
 # Plotting the means found above
 ggplot(report_summary_1, aes(x = video_finished, y = mean_length)) +
-  geom_col(fill = "skyblue") +
+  geom_col(fill = "turquoise") +
   labs(
     title = "Average Video Length: Finished vs Not Finished",
     x = "Watched Entire Video",
