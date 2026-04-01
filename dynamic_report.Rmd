@@ -118,7 +118,7 @@ report_sub_stats <- latest_data %>%
 ## The Impact of Subscription on Watch Behavior
 Does being subscribed to a creator make me more likely to finish their content? The bar chart above compares the count of finished vs. unfinished videos based on subscription status. The percentage of videos finished as a nonsubscriber is `r round(report_sub_stats$completion_rate[1])`% and the percentage of videos finished as a subscriber is `r round(report_sub_stats$completion_rate[2])`%. Perhaps I am more or less likely to finish a YouTube video absed on whether I am a subscriber of the creator or not.
 
-## Live Genre Leadboard
+## What's trending?
 ```{r}
 knitr::kable(genre_leaderboard, 
              col.names = c("Rank", "Genre", "Total Videos"),
