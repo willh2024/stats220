@@ -1,14 +1,40 @@
 ---
-title: My dynamic report
+title: "My dynamic report"
 output: html_fragment
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 library(tidyverse)
-```
 
-```{css}
+# Load and clean data
+logged_data <- read.csv("[https://docs.google.com/spreadsheets/d/e/2PACX-1vS1aRljG5xmP2ObmFxf2b_L9CTceFbhCFk22WQyqkTV3HY7vjoozv1xw26QMsEMR3iMjd9xK72gBUnK/pub?output=csv](https://docs.google.com/spreadsheets/d/e/2PACX-1vS1aRljG5xmP2ObmFxf2b_L9CTceFbhCFk22WQyqkTV3HY7vjoozv1xw26QMsEMR3iMjd9xK72gBUnK/pub?output=csv)")
+
+latest_data <- logged_data %>%
+  select(-Timestamp) %>%
+  rename(video_length = How.long.was.the.video...to.the.nearest.minute.,
+         subscribed = Are.you.subscribed.to.the.video.creator.,
+         video_finished = Did.you.watch.the.entire.video.,
+         genre = Which.genre.does.the.video.best.fit.)
+
+# Create summary values for the first paragraph
+total_count <- nrow(latest_data)
+
+# Summary for Chart 1
+report_summary_1 <- latest_data %>%
+  group_by(video_finished) %>%
+  summarise(mean_length = mean(video_length, na.rm = TRUE))
+
+# Summary for Chart 2
+report_sub_stats <- latest_data %>%
+  group_by(subscribed) %>%
+  summarise(
+    total_vids = n(),
+    finished_vids = sum(video_finished == "Yes"),
+    completion_rate = (finished_vids / total_vids) * 100
+  )
+
+/* CSS remains inside a code chunk, which is allowed */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #ffffff;
@@ -20,43 +46,16 @@ h2 {
   padding-bottom: 5px;
 }
 
-.highlight-box {
+/* Use standard markdown for the box, but style the 'blockquote' instead of a div */
+blockquote {
   background-color: #f0f7fb;
   border-left: 6px solid #3498db;
   padding: 15px;
   margin: 20px 0;
   font-style: italic;
+  color: #333;
 }
 
-.chart-caption {
-  font-size: 0.9em;
-  color: #666;
-  text-align: center;
-  margin-bottom: 30px;
-}
-```
-
-```{r}
-# Load and clean data
-logged_data <- read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1aRljG5xmP2ObmFxf2b_L9CTceFbhCFk22WQyqkTV3HY7vjoozv1xw26QMsEMR3iMjd9xK72gBUnK/pub?output=csv")
-
-latest_data <- logged_data %>%
-  select(-Timestamp) %>%
-  rename(video_length = How.long.was.the.video...to.the.nearest.minute.,
-         subscribed = Are.you.subscribed.to.the.video.creator.,
-         video_finished = Did.you.watch.the.entire.video.,
-         genre = Which.genre.does.the.video.best.fit.)
-
-total_count <- nrow(latest_data)
-avg_video_time <- round(mean(latest_data$video_length, na.rm = TRUE), 1)
-
-# Finding the genre with the most videos logged
-top_genre <- latest_data %>%
-  group_by(genre) %>%
-  summarise(n = n()) %>%
-  arrange(desc(n)) %>%
-  slice(1) %>%
-  pull(genre)
 ```
 
 # Analysis of Video Consumption and Engagement
@@ -69,8 +68,6 @@ report_summary_1 <- latest_data %>%
   summarise(
     mean_length = mean(video_length, na.rm = TRUE)
   )
-
-print(report_summary_1)
 
 # Plotting the means found above
 ggplot(report_summary_1, aes(x = video_finished, y = mean_length)) +
@@ -104,10 +101,7 @@ report_sub_stats <- latest_data %>%
     completion_rate = (finished_vids / total_vids) * 100
   )
 
-print(report_sub_stats)
-
 ```
+
 ## The Impact of Subscription on Watch Behavior
 Does being subscribed to a creator make me more likely to finish their content? This bar chart compares the count of finished vs. unfinished videos based on subscription status. The percentage of videos finished as a nonsubscriber is `r report_sub_stats$completion_rate[1]` and the percentage of videos finished as a subscriber is `r report_sub_stats$completion_rate[2]`.
-
-
