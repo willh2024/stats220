@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 ```{css, echo=FALSE}
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #e1eff2;
+  background-color: #ffffff;
 }
 
 h2 {
