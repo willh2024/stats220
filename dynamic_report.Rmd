@@ -75,7 +75,8 @@ ggplot(report_summary_1, aes(x = video_finished, y = mean_length)) +
     title = "Average Video Length: Finished vs Not Finished",
     x = "Watched Entire Video",
     y = "Average Length (minutes)"
-  )
+    theme_minimal()
+)
 ```
 
 
